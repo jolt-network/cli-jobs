@@ -1,21 +1,20 @@
 {
-  "name": "@keep3r-network/cli-sample-jobs",
-  "version": "1.0.0-beta.1",
-  "description": "Keep3r CLI Sample Jobs",
+  "name": "@jolt-network/cli-jobs",
+  "version": "0.1.0",
+  "description": "Jolt CLI jobs",
   "keywords": [
-    "keep3r",
+    "jolt",
     "cli",
     "sample",
     "job",
-    "ethereum",
-    "dca"
+    "ethereum"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/keep3r-network/cli-sample-jobs.git"
+    "url": "git+https://github.com/jolt-network/cli-jobs.git"
   },
-  "license": "MIT",
-  "author": "DeFi Wonderland",
+  "license": "GPL-3.0",
+  "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
   "files": [
     "dist"
   ],
@@ -28,7 +27,7 @@
     "pre-release": "yarn build && standard-version --prerelease rc"
   },
   "dependencies": {
-    "@keep3r-network/cli-utils": "1.0.0-beta.1",
+    "@jolt-network/cli-utils": "^0.1.2",
     "ethers": "5.5.1"
   },
   "devDependencies": {

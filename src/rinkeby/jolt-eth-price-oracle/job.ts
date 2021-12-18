@@ -1,9 +1,9 @@
-import { Job, JobWorkableGroup, makeid, prelog, toKebabCase } from '@keep3r-network/cli-utils';
+import { Job, JobWorkableGroup, makeid, prelog, toKebabCase } from '@jolt-network/cli-utils';
 import { Contract } from 'ethers';
-import TestJobABI from '../../abi/TestJob.json';
+import GENERIC_JOB_ABI from '../../abi/generic-job.json';
 import metadata from './metadata.json';
 
-const jobAddress = '0xd50345ca88e0B2cF9a6f5eD29C1F1f9d76A16C3c';
+const jobAddress = '0x190568b7A4E97ccaFe089040afF65F06Db15Ea47';
 
 const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
   const correlationId = toKebabCase(metadata.name);
@@ -22,10 +22,10 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
 
   logConsole.log(`Trying to work`);
 
-  const job = new Contract(jobAddress, TestJobABI, args.fork.ethersProvider);
+  const job = new Contract(jobAddress, GENERIC_JOB_ABI, args.fork.ethersProvider);
 
   try {
-    await job.connect(args.keeperAddress).callStatic.work({
+    await job.connect(args.workerAddress).callStatic.work({
       blockTag: args.advancedBlock,
     });
 
@@ -34,8 +34,8 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
     const workableGroups: JobWorkableGroup[] = [];
 
     for (let index = 0; index < args.bundleBurst; index++) {
-      const tx = await job.connect(args.keeperAddress).populateTransaction.work({
-        nonce: args.keeperNonce,
+      const tx = await job.connect(args.workerAddress).populateTransaction.work({
+        nonce: args.workerNonce,
         gasLimit: 2_000_000,
         type: 2,
       });
