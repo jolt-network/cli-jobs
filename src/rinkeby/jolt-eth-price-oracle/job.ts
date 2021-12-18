@@ -22,19 +22,23 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
 
   logConsole.log(`Trying to work`);
 
-  const job = new Contract(jobAddress, GENERIC_JOB_ABI, args.fork.ethersProvider);
+  const job = new Contract(jobAddress, GENERIC_JOB_ABI, args.fork.ethersProvider).connect(args.workerAddress);
 
   try {
-    await job.connect(args.workerAddress).callStatic.work({
+    const workable = await job.callStatic.workable('0x', {
       blockTag: args.advancedBlock,
     });
+    if (!workable) {
+      logConsole.warn('Job currently not workable');
+      return;
+    }
 
     logConsole.log(`Found workable block`);
 
     const workableGroups: JobWorkableGroup[] = [];
 
     for (let index = 0; index < args.bundleBurst; index++) {
-      const tx = await job.connect(args.workerAddress).populateTransaction.work({
+      const tx = await job.populateTransaction.work('0x', {
         nonce: args.workerNonce,
         gasLimit: 2_000_000,
         type: 2,
