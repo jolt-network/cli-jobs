@@ -39,7 +39,6 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
 
     for (let index = 0; index < args.bundleBurst; index++) {
       const tx = await job.populateTransaction.work('0x', {
-        nonce: args.workerNonce,
         gasLimit: 2_000_000,
         type: 2,
       });
