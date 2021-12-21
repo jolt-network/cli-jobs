@@ -1,4 +1,4 @@
-import { Job, JobWorkableGroup, makeid, prelog, toKebabCase } from '@jolt-network/cli-utils';
+import { Job, makeid, prelog, toKebabCase } from '@jolt-network/cli-utils';
 import { Contract } from 'ethers';
 import GENERIC_JOB_ABI from '../../abi/generic-job.json';
 import metadata from './metadata.json';
@@ -25,33 +25,28 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
   const job = new Contract(jobAddress, GENERIC_JOB_ABI, args.fork.ethersProvider).connect(args.workerAddress);
 
   try {
-    const workable = await job.callStatic.workable('0x', {
-      blockTag: args.advancedBlock,
+    await job.callStatic.work('0x', {
+      nonce: args.workerNonce,
+      gasLimit: 2_000_000,
+      type: 2,
     });
-    if (!workable) {
-      logConsole.warn('Job currently not workable');
-      return;
-    }
 
     logConsole.log(`Found workable block`);
 
-    const workableGroups: JobWorkableGroup[] = [];
-
-    for (let index = 0; index < args.bundleBurst; index++) {
-      const tx = await job.populateTransaction.work('0x', {
-        gasLimit: 2_000_000,
-        type: 2,
-      });
-
-      workableGroups.push({
-        targetBlock: args.targetBlock + index,
-        txs: [tx],
-        logId: `${logMetadata.logId}-${makeid(5)}`,
-      });
-    }
+    const tx = await job.populateTransaction.work('0x', {
+      nonce: args.workerNonce,
+      gasLimit: 2_000_000,
+      type: 2,
+    });
 
     args.subject.next({
-      workableGroups,
+      workableGroups: [
+        {
+          targetBlock: args.targetBlock,
+          txs: [tx],
+          logId: `${logMetadata.logId}-${makeid(5)}`,
+        },
+      ],
       correlationId,
     });
   } catch (err: any) {
