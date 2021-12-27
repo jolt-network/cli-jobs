@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/jolt-network/cli-jobs/compare/v0.1.3...v0.1.5) (2021-12-27)
+
+
+### Features
+
+* improve code readability ([37e6eee](https://github.com/jolt-network/cli-jobs/commit/37e6eee27e7e9376fe77e083adee235c20df4f7a))
+
 ### [0.1.3](https://github.com/jolt-network/cli-jobs/compare/v0.1.2...v0.1.3) (2021-12-18)
 
 
