@@ -3,7 +3,7 @@ import { Contract } from 'ethers';
 import GENERIC_JOB_ABI from '../../abi/generic-job.json';
 import metadata from './metadata.json';
 
-const jobAddress = '0x190568b7A4E97ccaFe089040afF65F06Db15Ea47';
+const jobAddress = '0xB9D5c491a467b285eF81478558BE158bea0b4F17';
 
 const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
   const correlationId = toKebabCase(metadata.name);
