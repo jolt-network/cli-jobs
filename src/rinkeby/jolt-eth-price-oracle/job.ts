@@ -3,7 +3,7 @@ import { Contract } from 'ethers';
 import GENERIC_JOB_ABI from '../../abi/generic-job.json';
 import metadata from './metadata.json';
 
-const jobAddress = '0xB9D5c491a467b285eF81478558BE158bea0b4F17';
+const jobAddress = '0xC1204Dd8F54C57C27d67A84405EB61Af9f69B826';
 
 const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
   const correlationId = toKebabCase(metadata.name);
@@ -50,7 +50,7 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
       correlationId,
     });
   } catch (err: any) {
-    logConsole.warn('Simulation failed, maybe in cooldown?');
+    logConsole.warn('Simulation failed, maybe in cooldown?', err);
   } finally {
     args.subject.complete();
   }
