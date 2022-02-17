@@ -1,6 +1,6 @@
 {
   "name": "@jolt-network/cli-jobs",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Jolt CLI jobs",
   "keywords": [
     "jolt",
